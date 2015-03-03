@@ -1,5 +1,5 @@
 # school-web-api
-This is a sample for ASP.NET Web API where I build a simple back-end to manage students, teachers and classrooms.
+This is a sample for RESTful Web API where I build a simple back-end to manage students, teachers and classrooms.
 
 ## Also used in this project
 
