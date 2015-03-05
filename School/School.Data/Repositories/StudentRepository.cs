@@ -46,12 +46,14 @@ namespace School.Data.Repositories
 
         public List<Student> GetWithClassroom()
         {
-            return _context.Students.Include(s => s.Classroom).ToList();
+            //return _context.Students.Include(s => s.Classroom).ToList();
+            return _context.Students.ToList();
         }
 
         public Student GetWithClassroom(int id)
         {
-            return _context.Students.Where(s => s.Id == id).Include(s => s.Classroom).FirstOrDefault();
+            //return _context.Students.Where(s => s.Id == id).Include(s => s.Classroom).FirstOrDefault();
+            return _context.Students.Where(s => s.Id == id).FirstOrDefault();
         }
 
         public List<Student> GetWithPerson()

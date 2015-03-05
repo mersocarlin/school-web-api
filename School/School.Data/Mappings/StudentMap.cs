@@ -11,15 +11,11 @@ namespace School.Data.Mappings
 
             HasKey(s => s.Id);
 
-            Property(s => s.Id).HasColumnName("is");
+            Property(s => s.Id).HasColumnName("id");
             Property(s => s.Height).HasColumnName("height").IsRequired();
-            Property(s => s.Row).HasColumnName("row_number").IsRequired();
-            Property(s => s.Column).HasColumnName("column_number").IsRequired();
             Property(s => s.PersonId).HasColumnName("personid");
-            Property(s => s.ClassroomId).HasColumnName("classroomid"); ;
-
+            
             HasRequired(s => s.Person);
-            HasOptional(s => s.Classroom);
         }
     }
 }
