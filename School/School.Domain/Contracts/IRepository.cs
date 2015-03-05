@@ -5,7 +5,7 @@ namespace School.Domain.Contracts
 {
     public interface IRepository<T> : IDisposable
     {
-        List<T> Get();
+        IEnumerable<T> Get();
         T Get(int id);
         void Create(T entity);
         void Update(T entity);

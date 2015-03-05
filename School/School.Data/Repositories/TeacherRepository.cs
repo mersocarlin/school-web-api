@@ -1,6 +1,6 @@
 ﻿using School.Data.DataContexts;
-using School.Domain;
 using School.Domain.Contracts;
+using School.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,32 +8,32 @@ using System.Linq;
 
 namespace School.Data.Repositories
 {
-    public class ProfessorRepository : IProfessorRepository
+    public class TeacherRepository : ITeacherRepository
     {
         private SchoolContext _context;
 
-        public ProfessorRepository(SchoolContext context)
+        public TeacherRepository(SchoolContext context)
         {
             this._context = context;
         }
 
-        public List<Professor> Get()
+        public IEnumerable<Person> Get()
         {
-            return _context.Professors.ToList();
+            return _context.People.Where(p => p.PersonType == PersonType.Teacher);
         }
 
-        public Professor Get(int id)
+        public Person Get(int id)
         {
-            return _context.Professors.Where(p => p.Id == id).FirstOrDefault();
+            return _context.People.Where(p => p.Id == id && p.PersonType == PersonType.Teacher).FirstOrDefault();
         }
 
-        public void Create(Professor entity)
+        public void Create(Person entity)
         {
-            _context.Professors.Add(entity);
+            _context.People.Add(entity);
             _context.SaveChanges();
         }
 
-        public void Update(Professor entity)
+        public void Update(Person entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();

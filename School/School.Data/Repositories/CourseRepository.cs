@@ -8,32 +8,32 @@ using System.Linq;
 
 namespace School.Data.Repositories
 {
-    public class StudentRepository : IStudentRepository
+    public class CourseRepository : ICourseRepository
     {
         private SchoolContext _context;
 
-        public StudentRepository(SchoolContext context)
+        public CourseRepository(SchoolContext context)
         {
             this._context = context;
         }
 
-        public IEnumerable<Person> Get()
+        public IEnumerable<Course> Get()
         {
-            return _context.People.Where(p => p.PersonType == PersonType.Student);
+            return _context.Courses;
         }
 
-        public Person Get(int id)
+        public Course Get(int id)
         {
-            return _context.People.Where(p => p.Id == id && p.PersonType == PersonType.Student).FirstOrDefault();
+            return _context.Courses.Where(c => c.Id == id).FirstOrDefault();
         }
 
-        public void Create(Person entity)
+        public void Create(Course entity)
         {
-            _context.People.Add(entity);
+            _context.Courses.Add(entity);
             _context.SaveChanges();
         }
 
-        public void Update(Person entity)
+        public void Update(Course entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();

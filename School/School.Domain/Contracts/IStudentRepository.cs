@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using School.Domain.Models;
 
 namespace School.Domain.Contracts
 {
-    public interface IStudentRepository : IRepository<Student>
+    public interface IStudentRepository : IRepository<Person>
     {
-        List<Student> GetWithClassroom();
-        Student GetWithClassroom(int id);
-        List<Student> GetWithPerson();
-        Student GetWithPerson(int id);
+        //List<Person> GetWithClassroom();
+        //Person GetWithClassroom(int id);
     }
 }
