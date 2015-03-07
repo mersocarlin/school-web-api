@@ -73,10 +73,6 @@
       <Project>{fdeeaf2f-d966-4fb7-b752-159984df1bbc}</Project>
       <Name>School.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\School.Utils\School.Utils.csproj">
-      <Project>{6ce67797-dfe8-433f-85b8-50fa4a17e961}</Project>
-      <Name>School.Utils</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
