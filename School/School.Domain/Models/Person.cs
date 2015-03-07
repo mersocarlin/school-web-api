@@ -16,8 +16,8 @@ namespace School.Domain.Models
 
     public enum PersonStatus
     {
-        Active = 1,
-        Inactive = 2
+        Inactive = 0,
+        Active = 1
     }
 
     public class Person
@@ -31,7 +31,7 @@ namespace School.Domain.Models
 
         #region Properties
         /*
-          * CPF, RG, Contact phone (Home, Comercial, Mobile)
+          * CPF, RG
          */
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -43,6 +43,10 @@ namespace School.Domain.Models
 
         public string Email { get; set; }
         public string Password { get; set; }
+
+        public string HomePhone { get; set; }
+        public string MobilePhone { get; set; }
+        public string WorkPhone { get; set; }
         
         public string Address { get; set; }
         public PersonType PersonType { get; set; }

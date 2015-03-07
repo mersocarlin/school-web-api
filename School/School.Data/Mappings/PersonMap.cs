@@ -21,6 +21,9 @@ namespace School.Data.Mappings
             Property(p => p.DateOfBirth).HasColumnName("dateofbirth").IsRequired();
             Property(p => p.Email).HasColumnName("email").HasMaxLength(30).IsRequired();
             Property(p => p.Password).HasColumnName("password").HasMaxLength(50).IsRequired();
+            Property(p => p.HomePhone).HasColumnName("homephone").HasMaxLength(20).IsRequired();
+            Property(p => p.MobilePhone).HasColumnName("mobilephone").HasMaxLength(20).IsRequired();
+            Property(p => p.WorkPhone).HasColumnName("workphone").HasMaxLength(20).IsRequired();
             Property(p => p.Address).HasColumnName("address").HasMaxLength(100);
             Property(p => p.PersonType).HasColumnName("persontype").IsRequired();
         }
