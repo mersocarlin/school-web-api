@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DDDValidation.Validation;
+using System;
 
 namespace School.Domain.Models
 {
@@ -54,5 +55,16 @@ namespace School.Domain.Models
         public string FullName { get { return this.FirstName + " " + this.LastName; } }
         #endregion
 
+        #region Methods
+        public void Validate()
+        {
+            AssertionConcern.AssertArgumentNotNull(this.FirstName, "Please enter the First Name");
+            AssertionConcern.AssertArgumentNotNull(this.LastName, "Please enter the Last Name");
+            EmailAssertionConcern.AssertIsValid(this.Email, "Please inform a valid email address");
+            AssertionConcern.AssertArgumentNotNull(this.HomePhone, "Please enter the Home Phone");
+            AssertionConcern.AssertArgumentNotNull(this.MobilePhone, "Please enter the Mobile Phone");
+            AssertionConcern.AssertArgumentNotNull(this.Address, "Please enter the Address");
+        }
+        #endregion
     }
 }

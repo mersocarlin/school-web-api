@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DDDValidation.Validation;
+using System.Collections.Generic;
 
 namespace School.Domain.Models
 {
@@ -18,6 +19,13 @@ namespace School.Domain.Models
         
         //public virtual ICollection<Person> Students { get; set; }
         //public virtual ICollection<Person> Teachers { get; set; }
+        #endregion
+
+        #region Methods
+        public void Validate()
+        {
+            AssertionConcern.AssertArgumentNotNull(this.Name, "Please inform the name of the course");
+        }
         #endregion
     }
 }
