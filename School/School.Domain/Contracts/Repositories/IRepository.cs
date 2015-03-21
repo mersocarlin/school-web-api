@@ -9,6 +9,6 @@ namespace School.Domain.Contracts.Repositories
         T Get(int id);
         void Create(T entity);
         void Update(T entity);
-        void Delete(int id);
+        void Delete(T entity);
     }
 }

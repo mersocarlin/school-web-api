@@ -39,9 +39,11 @@ namespace School.Data.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(Person entity)
         {
-            throw new NotImplementedException();
+            entity.Status = PersonStatus.Inactive;
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
         }
 
         public void Dispose()

@@ -24,6 +24,14 @@ namespace School.Business.Services
                 _repository.Update(student);
         }
 
+        public void Delete(int id)
+        {
+            var student = GetById(id);
+            if(student == null)
+                throw new Exception("Student does not exist in database");
+            _repository.Delete(student);
+        }
+
         public Person GetById(int id)
         {
             return _repository.Get(id);
