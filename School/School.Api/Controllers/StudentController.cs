@@ -1,4 +1,5 @@
-﻿using School.Domain.Contracts;
+﻿using School.Domain.Contracts.Repositories;
+using School.Domain.Contracts.Services;
 using School.Domain.Models;
 using System;
 using System.Net;
@@ -12,11 +13,11 @@ namespace School.Api.Controllers
     [RoutePrefix("api/students")]
     public class StudentController : ApiController
     {
-        private IStudentRepository _studentRepository;
+        private IStudentService _service;
 
-        public StudentController(IStudentRepository studentRepository)
+        public StudentController(IStudentService service)
         {
-            this._studentRepository = studentRepository;
+            this._service = service;
         }
 
         [HttpGet]
@@ -29,7 +30,7 @@ namespace School.Api.Controllers
 
             try
             {
-                var result = _studentRepository.Get();
+                var result = _service.Get();
                 response = Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
@@ -50,7 +51,7 @@ namespace School.Api.Controllers
 
             try
             {
-                _studentRepository.Create(student);
+                _service.Save(student);
                 response = Request.CreateResponse(HttpStatusCode.OK, new { name = student.FullName, email = student.Email });
             }
             catch (Exception ex)
@@ -65,7 +66,7 @@ namespace School.Api.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            _studentRepository.Dispose();
+            _service.Dispose();
         }
     }
 }

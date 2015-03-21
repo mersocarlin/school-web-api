@@ -1,14 +1,13 @@
-﻿﻿using Microsoft.Owin;
-using Microsoft.Owin.Security.OAuth;
-using Microsoft.Practices.Unity;
+﻿﻿using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using School.Api.Helpers;
+using School.Business.Services;
 using School.Data.DataContexts;
 using School.Data.Repositories;
-using School.Domain.Contracts;
-using System;
+using School.Domain.Contracts.Repositories;
+using School.Domain.Contracts.Services;
 using System.Web.Http;
 
 namespace School.Api
@@ -22,9 +21,15 @@ namespace School.Api
             // Configure Dependency Injection
             var container = new UnityContainer();
             container.RegisterType<SchoolContext, SchoolContext>();
+            
             container.RegisterType<ICourseRepository, CourseRepository>();
             container.RegisterType<IStudentRepository, StudentRepository>();
             container.RegisterType<ITeacherRepository, TeacherRepository>();
+
+            //container.RegisterType<ICourseService, CourseService>();
+            container.RegisterType<IStudentService, StudentService>();
+            container.RegisterType<ITeacherService, TeacherService>();
+
             config.DependencyResolver = new UnityResolver(container);
 
             ConfigureWebApi(config);

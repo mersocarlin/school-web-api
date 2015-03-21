@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace School.Domain.Contracts
+namespace School.Domain.Contracts.Repositories
 {
     public interface IRepository<T> : IDisposable
     {

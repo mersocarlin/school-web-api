@@ -1,5 +1,5 @@
 ﻿using School.Data.DataContexts;
-using School.Domain.Contracts;
+using School.Domain.Contracts.Repositories;
 using School.Domain.Models;
 using System;
 using System.Collections.Generic;

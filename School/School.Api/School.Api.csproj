@@ -153,6 +153,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\School.Business\School.Business.csproj">
+      <Project>{0f3b647f-5512-4ca3-8c4a-05141bc8d035}</Project>
+      <Name>School.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\School.Data\School.Data.csproj">
       <Project>{5dc349e3-8f9d-4df1-98e6-add74fc9cf41}</Project>
       <Name>School.Data</Name>
