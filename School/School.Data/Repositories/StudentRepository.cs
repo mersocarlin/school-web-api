@@ -1,55 +1,31 @@
 ﻿using School.Data.DataContexts;
 using School.Domain.Contracts.Repositories;
 using School.Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
 namespace School.Data.Repositories
 {
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : Repository<Person>, IStudentRepository
     {
-        private SchoolContext _context;
-
         public StudentRepository(SchoolContext context)
+            : base(context)
         {
-            this._context = context;
+
         }
 
-        public IEnumerable<Person> Get()
+        public IEnumerable<Person> GetStudents()
         {
-            return _context.People.Where(p => p.PersonType == PersonType.Student);
+            return _context.People.Where(p => p.PersonType == PersonType.Student || p.PersonType == PersonType.StudentAndTeacher);
         }
 
-        public Person Get(int id)
-        {
-            return _context.People.Where(p => p.Id == id && p.PersonType == PersonType.Student).FirstOrDefault();
-        }
-
-        public void Create(Person entity)
-        {
-            _context.People.Add(entity);
-            _context.SaveChanges();
-        }
-
-        public void Update(Person entity)
-        {
-            _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
-        public void Delete(Person entity)
+        public override void Delete(Person entity)
         {
             //In this case the entity is just set as Inactive
-            entity.Status = PersonStatus.Inactive;
+            entity.Status = EntityStatus.Inactive;
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
         }
     }
 }

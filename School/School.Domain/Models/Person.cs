@@ -6,7 +6,8 @@ namespace School.Domain.Models
     public enum PersonType
     {
         Student = 0,
-        Teacher = 1
+        Teacher = 1,
+        StudentAndTeacher = 2
     }
 
     public enum GenderType
@@ -15,7 +16,7 @@ namespace School.Domain.Models
         Female = 1
     }
 
-    public enum PersonStatus
+    public enum EntityStatus
     {
         Inactive = 0,
         Active = 1
@@ -33,7 +34,7 @@ namespace School.Domain.Models
         #region Properties
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
-        public PersonStatus Status { get; set; }
+        public EntityStatus Status { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public GenderType Gender { get; set; }

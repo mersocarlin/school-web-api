@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace School.Domain.Contracts.Repositories
 {
-    public interface IRepository<T> : IDisposable
+    public interface IRepository<TEntity> where TEntity : class
     {
-        IEnumerable<T> Get();
-        T Get(int id);
-        void Create(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        IEnumerable<TEntity> Get();
+        TEntity GetById(int id);
+        void Create(TEntity entity);
+        void Update(TEntity entity);
+        void Delete(TEntity entity);
+        void Dispose();
     }
 }

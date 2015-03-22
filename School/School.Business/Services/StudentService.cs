@@ -34,12 +34,12 @@ namespace School.Business.Services
 
         public Person GetById(int id)
         {
-            return _repository.Get(id);
+            return _repository.GetById(id);
         }
 
         public IEnumerable<Person> Get()
         {
-            return _repository.Get();
+            return _repository.GetStudents();
         }
 
         public void Dispose()

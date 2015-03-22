@@ -21,7 +21,7 @@ namespace School.Api
             // Configure Dependency Injection
             var container = new UnityContainer();
             container.RegisterType<SchoolContext, SchoolContext>();
-            
+
             container.RegisterType<ICourseRepository, CourseRepository>();
             container.RegisterType<IStudentRepository, StudentRepository>();
             container.RegisterType<ITeacherRepository, TeacherRepository>();
