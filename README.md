@@ -14,7 +14,7 @@ This is a sample for RESTful Web API where I build a simple back-end to manage s
 
 ## oAuth Token Generation
 
-![oAuth Token Generation](/images/token_request.png)
+![oAuth Token Generation](https://github.com/mersocarlin/school-web-api/blob/master/images/token_request.PNG)
 
 **grant_type**: *password*
 
@@ -25,6 +25,6 @@ This is a sample for RESTful Web API where I build a simple back-end to manage s
 
 ## Sending requests
 
-![Request with Token](/images/request_with_token.png)
+![Request with Token](https://github.com/mersocarlin/school-web-api/blob/master/images/request_with_token.PNG)
 
 **Authorization**: Bearer [generated token]
