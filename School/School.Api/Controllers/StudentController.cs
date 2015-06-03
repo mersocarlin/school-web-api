@@ -11,6 +11,7 @@ using WebApi.OutputCache.V2;
 namespace School.Api.Controllers
 {
     [RoutePrefix("api/students")]
+    [Authorize]
     public class StudentController : ApiController
     {
         private IStudentService _service;

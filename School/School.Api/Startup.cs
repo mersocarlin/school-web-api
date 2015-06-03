@@ -1,13 +1,17 @@
-﻿﻿using Microsoft.Practices.Unity;
+﻿﻿using Microsoft.Owin;
+using Microsoft.Owin.Security.OAuth;
+using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using School.Api.Helpers;
+using School.Api.Security;
 using School.Business.Services;
 using School.Data.DataContexts;
 using School.Data.Repositories;
 using School.Domain.Contracts.Repositories;
 using School.Domain.Contracts.Services;
+using System;
 using System.Web.Http;
 
 namespace School.Api
@@ -33,7 +37,7 @@ namespace School.Api
             config.DependencyResolver = new UnityResolver(container);
 
             ConfigureWebApi(config);
-            //ConfigureOAuth(app, container.Resolve<IUserService>());
+            ConfigureOAuth(app, container.Resolve<IStudentService>());
 
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
@@ -63,19 +67,19 @@ namespace School.Api
             );
         }
 
-        //public void ConfigureOAuth(IAppBuilder app, IUserService service)
-        //{
-        //    OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
-        //    {
-        //        AllowInsecureHttp = true,
-        //        TokenEndpointPath = new PathString("/api/security/token"),
-        //        AccessTokenExpireTimeSpan = TimeSpan.FromHours(2),
-        //        Provider = new AuthorizationServerProvider(service)
-        //    };
+        public void ConfigureOAuth(IAppBuilder app, IStudentService service)
+        {
+            OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
+            {
+                AllowInsecureHttp = true,
+                TokenEndpointPath = new PathString("/api/security/token"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromHours(2),
+                Provider = new AuthorizationServerProvider(service)
+            };
 
-        //    // Token Generation
-        //    app.UseOAuthAuthorizationServer(OAuthServerOptions);
-        //    app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-        //}
+            // Token Generation
+            app.UseOAuthAuthorizationServer(OAuthServerOptions);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+        }
     }
 }

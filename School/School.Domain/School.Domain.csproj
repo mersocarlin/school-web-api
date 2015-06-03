@@ -30,8 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DDDValidation">
-      <HintPath>..\packages\DDDValidation.1.0.0.1\lib\net45\DDDValidation.dll</HintPath>
+    <Reference Include="DDDValidation, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DDDValidation.1.0.0.3\lib\net45\DDDValidation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -51,7 +52,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

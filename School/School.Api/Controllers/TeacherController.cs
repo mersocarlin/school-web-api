@@ -9,6 +9,7 @@ using WebApi.OutputCache.V2;
 
 namespace School.Api.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/teachers")]
     public class TeacherController : ApiController
     {
