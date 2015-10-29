@@ -4,12 +4,12 @@ using School.Domain.Models;
 
 namespace School.Data.Repositories
 {
-    public class CourseRepository : Repository<Course>, ICourseRepository
+    public class PersonRepository : Repository<Person>, IPersonRepository
     {
-        public CourseRepository(SchoolContext context)
-            : base (context)
+        public PersonRepository(SchoolContext context)
+            : base(context)
         {
-        
+
         }
     }
 }

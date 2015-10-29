@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace School.Data.Repositories
 {
@@ -21,9 +22,21 @@ namespace School.Data.Repositories
             return _context.Set<TEntity>().AsEnumerable();
         }
 
-        public TEntity GetById(int id)
+        public IEnumerable<TEntity> GetIncluding(Func<TEntity, bool> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            return includeProperties.Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>
+                    (_context.Set<TEntity>(), (current, expression) => current.Include(expression)).Where(predicate).AsEnumerable<TEntity>();
+        }
+
+        public virtual TEntity GetById(int id)
         {
             return _context.Set<TEntity>().Find(id);
+        }
+
+        public TEntity GetFirstByIncluding(Func<TEntity, bool> predicate, params System.Linq.Expressions.Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            return includeProperties.Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>
+                (_context.Set<TEntity>(), (current, expression) => current.Include(expression)).Where(predicate).FirstOrDefault();
         }
 
         public void Create(TEntity entity)
