@@ -1,4 +1,5 @@
-﻿using School.Domain.Contracts.Services;
+﻿using School.Api.Attribute;
+using School.Domain.Contracts.Services;
 using School.Domain.Models;
 using System;
 using System.Net;
@@ -65,6 +66,7 @@ namespace School.Api.Controllers
             return tsc.Task;
         }
 
+        [ProfileAttribute(UserProfile.SuperUser)]
         [HttpPost]
         [Route("")]
         public Task<HttpResponseMessage> PostCourse(Course course)
