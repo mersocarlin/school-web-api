@@ -11,5 +11,11 @@ namespace School.Data.Repositories
         {
 
         }
+
+        public Person GetByIdWithProperties(int id)
+        {
+            return this.GetFirstByIncluding(
+                p => p.Id == id);
+        }
     }
 }

@@ -7,6 +7,6 @@ namespace School.Domain.Contracts.Services
     {
         object Get();
         Course GetCourseById(int id);
-        void Save(Course course);
+        void Save(int userId, Course course);
     }
 }

@@ -32,6 +32,15 @@ namespace School.Domain.Models
         {
             AssertionConcern.AssertArgumentNotNull(this.Name, "Please inform the name of the course");
         }
+
+        public object ToJson()
+        {
+            return new
+            {
+                Id = this.Id,
+                Name = this.Name
+            };
+        }
         #endregion
     }
 }
