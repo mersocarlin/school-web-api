@@ -45,6 +45,11 @@
     <Compile Include="Mappings\CourseMap.cs" />
     <Compile Include="Mappings\PersonMap.cs" />
     <Compile Include="Mappings\UserMap.cs" />
+    <Compile Include="Migrations\201510292322588_Initial.cs" />
+    <Compile Include="Migrations\201510292322588_Initial.Designer.cs">
+      <DependentUpon>201510292322588_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CourseRepository.cs" />
     <Compile Include="Repositories\PersonRepository.cs" />
@@ -60,6 +65,11 @@
       <Project>{fdeeaf2f-d966-4fb7-b752-159984df1bbc}</Project>
       <Name>School.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201510292322588_Initial.resx">
+      <DependentUpon>201510292322588_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
