@@ -1,36 +1,37 @@
-﻿using School.Domain.Contracts.Services;
+﻿using School.Api.Attribute;
+using School.Domain.Contracts.Services;
 using School.Domain.Models;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using WebApi.OutputCache.V2;
 
 namespace School.Api.Controllers
 {
     [Authorize]
-    [RoutePrefix("api/teachers")]
-    public class TeacherController : ApiController
+    [RoutePrefix("api/v1/user")]
+    public class UserController : BaseController
     {
-        private ITeacherService _service;
+        private IUserService userService;
 
-        public TeacherController(ITeacherService service)
+        public UserController(IUserService userService)
         {
-            this._service = service;
+            this.userService = userService;
         }
 
+        [ProfileAttribute(UserProfile.Teacher)]
         [HttpGet]
         [Route("")]
         //[DeflateCompression]
-        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)] //Install-Package Strathweb.CacheOutput.WebApi2
-        public Task<HttpResponseMessage> Get()
+        //[CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)] //Install-Package Strathweb.CacheOutput.WebApi2
+        public Task<HttpResponseMessage> GetUsers()
         {
             HttpResponseMessage response = new HttpResponseMessage();
 
             try
             {
-                var result = _service.Get();
+                var result = this.userService.GetUsers();
                 response = Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
@@ -43,16 +44,19 @@ namespace School.Api.Controllers
             return tsc.Task;
         }
 
+        [ProfileAttribute(UserProfile.SuperUser)]
         [HttpPost]
         [Route("")]
-        public Task<HttpResponseMessage> Post(Person teacher)
+        //[DeflateCompression]
+        //[CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)] //Install-Package Strathweb.CacheOutput.WebApi2
+        public Task<HttpResponseMessage> PostUser(User user)
         {
             HttpResponseMessage response = new HttpResponseMessage();
 
             try
             {
-                _service.Save(teacher);
-                response = Request.CreateResponse(HttpStatusCode.OK, new { name = teacher.FullName, email = teacher.Email });
+                this.userService.SaveUser(user);
+                response = Request.CreateResponse(HttpStatusCode.OK, user);
             }
             catch (Exception ex)
             {
@@ -66,7 +70,8 @@ namespace School.Api.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            _service.Dispose();
+            this.userService.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

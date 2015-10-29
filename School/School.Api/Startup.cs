@@ -11,6 +11,7 @@ using School.Data.DataContexts;
 using School.Data.Repositories;
 using School.Domain.Contracts.Repositories;
 using School.Domain.Contracts.Services;
+using School.Domain.Models;
 using System;
 using System.Web.Http;
 
@@ -27,17 +28,17 @@ namespace School.Api
             container.RegisterType<SchoolContext, SchoolContext>();
 
             container.RegisterType<ICourseRepository, CourseRepository>();
-            container.RegisterType<IStudentRepository, StudentRepository>();
-            container.RegisterType<ITeacherRepository, TeacherRepository>();
+            container.RegisterType<IPersonRepository, PersonRepository>();
+            container.RegisterType<IUserRepository, UserRepository>();
 
-            //container.RegisterType<ICourseService, CourseService>();
-            container.RegisterType<IStudentService, StudentService>();
-            container.RegisterType<ITeacherService, TeacherService>();
+            container.RegisterType<ICourseService, CourseService>();
+            container.RegisterType<IPersonService, PersonService>();
+            container.RegisterType<IUserService, UserService>();
 
             config.DependencyResolver = new UnityResolver(container);
 
             ConfigureWebApi(config);
-            ConfigureOAuth(app, container.Resolve<IStudentService>());
+            ConfigureOAuth(app, container.Resolve<IUserService>());
 
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
@@ -67,14 +68,15 @@ namespace School.Api
             );
         }
 
-        public void ConfigureOAuth(IAppBuilder app, IStudentService service)
+        public void ConfigureOAuth(IAppBuilder app, IUserService userService)
         {
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/api/security/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromHours(2),
-                Provider = new AuthorizationServerProvider(service)
+                TokenEndpointPath = new PathString("/api/auth"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
+                Provider = new AuthorizationServerProvider(userService),
+                RefreshTokenProvider = new TokenProvider(TokenType.RefreshToken, userService)
             };
 
             // Token Generation
