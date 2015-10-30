@@ -1,14 +1,11 @@
-﻿using Microsoft.Owin.Security.OAuth;
+﻿using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
 using School.Domain.Contracts.Services;
 using School.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace School.Api.Security
 {
@@ -17,11 +14,11 @@ namespace School.Api.Security
         private const string OAUTH_USERNAME = "mersocarlin";
         private const string OAUTH_PASSWORD = "BolshoiBooze";
 
-        private readonly IStudentService _service;
+        private IUserService userService;
 
-        public AuthorizationServerProvider(IStudentService service)
+        public AuthorizationServerProvider(IUserService userService)
         {
-            _service = service;
+            this.userService = userService;
         }
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -35,31 +32,81 @@ namespace School.Api.Security
 
             try
             {
-                //You can use your service layer to authenticate your requests
-                //This sample is just a brief demonstration 
-                
-                //var user = _service.Authenticate(context.UserName, context.Password);
+                User user = null;
 
-                if (context.UserName != OAUTH_USERNAME || context.Password != OAUTH_PASSWORD)
+                if (context.UserName.Equals(OAUTH_USERNAME) && context.Password.Equals(OAUTH_PASSWORD))
+                {
+                    user = new User
+                    {
+                        Id = -1,
+                        Username = "mersocarlin",
+                        CreatedAt = DateTime.Now,
+                        LastLogin = DateTime.Now,
+                        Status = EntityStatus.Active,
+                        Profile = UserProfile.Admin
+                    };
+                }
+                else
+                {
+                    user = this.userService.Authenticate(context.UserName, context.Password);
+                }
+
+                bool authenticated = user != null && user.Status == EntityStatus.Active;
+
+                if (!authenticated)
                 {
                     context.SetError("invalid_grant", "invalid credentials");
                     return;
                 }
 
-                var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                this.userService.UpdateLastLogin(user.Id);
 
-                identity.AddClaim(new Claim(ClaimTypes.Name, OAUTH_USERNAME));
-                identity.AddClaim(new Claim(ClaimTypes.GivenName, OAUTH_USERNAME));
+                ClaimsIdentity identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                identity.AddClaim(new Claim(ClaimTypes.Name, user.Username));
+                identity.AddClaim(new Claim(ClaimTypes.GivenName, user.Username));
+                identity.AddClaim(new Claim(ClaimTypes.Role, ((int)user.Profile).ToString()));
+                identity.AddClaim(new Claim("Id", user.Id.ToString()));
 
-                GenericPrincipal principal = new GenericPrincipal(identity, null);
-                Thread.CurrentPrincipal = principal;
-
-                context.Validated(identity);
+                AuthenticationProperties properties = CreateProperties(user);
+                AuthenticationTicket ticket = new AuthenticationTicket(identity, properties);
+                context.Validated(ticket);
             }
             catch (Exception ex)
             {
                 context.SetError("invalid_grant", ex.Message);
             }
+        }
+
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            {
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+            }
+
+            return Task.FromResult<object>(null);
+        }
+
+        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        {
+            // Change auth ticket for refresh token requests
+            var newIdentity = new ClaimsIdentity(context.Ticket.Identity);
+
+            var newTicket = new AuthenticationTicket(newIdentity, context.Ticket.Properties);
+            context.Validated(newTicket);
+
+            return Task.FromResult<object>(null);
+        }
+
+        public static AuthenticationProperties CreateProperties(User user)
+        {
+            IDictionary<string, string> data = new Dictionary<string, string>
+            {
+                //{ "client_id", user.Id.ToString() },
+                { "userId", user.Id.ToString() },
+                { "user", user.ToLoginJson() }
+            };
+            return new AuthenticationProperties(data);
         }
     }
 }

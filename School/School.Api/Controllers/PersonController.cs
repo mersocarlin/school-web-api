@@ -1,4 +1,4 @@
-﻿using School.Domain.Contracts.Repositories;
+﻿using School.Api.Attribute;
 using School.Domain.Contracts.Services;
 using School.Domain.Models;
 using System;
@@ -6,17 +6,16 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using WebApi.OutputCache.V2;
 
 namespace School.Api.Controllers
 {
-    [RoutePrefix("api/students")]
     [Authorize]
-    public class StudentController : ApiController
+    [RoutePrefix("api/v1/person")]
+    public class PersonController : BaseController
     {
-        private IStudentService _service;
+        private IPersonService _service;
 
-        public StudentController(IStudentService service)
+        public PersonController(IPersonService service)
         {
             this._service = service;
         }
@@ -24,14 +23,14 @@ namespace School.Api.Controllers
         [HttpGet]
         [Route("")]
         //[DeflateCompression]
-        [CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)] //Install-Package Strathweb.CacheOutput.WebApi2
-        public Task<HttpResponseMessage> Get()
+        //[CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)] //Install-Package Strathweb.CacheOutput.WebApi2
+        public Task<HttpResponseMessage> Get(string query, int personType, int personStatus, int page, int pageSize = 50)
         {
             HttpResponseMessage response = new HttpResponseMessage();
 
             try
             {
-                var result = _service.Get();
+                var result = _service.Get(query, personType, personStatus, page, pageSize);
                 response = Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
@@ -44,16 +43,18 @@ namespace School.Api.Controllers
             return tsc.Task;
         }
 
-        [HttpPost]
-        [Route("")]
-        public Task<HttpResponseMessage> Post(Person student)
+        [HttpGet]
+        [Route("{id}")]
+        //[DeflateCompression]
+        //[CacheOutput(ClientTimeSpan = 100, ServerTimeSpan = 100)] //Install-Package Strathweb.CacheOutput.WebApi2
+        public Task<HttpResponseMessage> GetPersonById(int id)
         {
             HttpResponseMessage response = new HttpResponseMessage();
 
             try
             {
-                _service.Save(student);
-                response = Request.CreateResponse(HttpStatusCode.OK, new { name = student.FullName, email = student.Email });
+                var result = _service.GetPersonById(id);
+                response = Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
@@ -65,20 +66,21 @@ namespace School.Api.Controllers
             return tsc.Task;
         }
 
-        [HttpDelete]
+        [ProfileAttribute(UserProfile.SuperUser)]
+        [HttpPost]
         [Route("")]
-        public Task<HttpResponseMessage> Delete(int id)
+        public Task<HttpResponseMessage> Post(Person person)
         {
             HttpResponseMessage response = new HttpResponseMessage();
 
             try
             {
-                _service.Delete(id);
-                response = Request.CreateResponse(HttpStatusCode.OK, "Student deleted!");
+                _service.SavePerson(this.GetIdentityId(), person);
+                response = Request.CreateResponse(HttpStatusCode.OK, person);
             }
             catch (Exception ex)
             {
-                response = Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+                response = Request.CreateResponse(HttpStatusCode.BadRequest, new { person = person.Id, message = ex.Message });
             }
 
             var tsc = new TaskCompletionSource<HttpResponseMessage>();
@@ -88,7 +90,7 @@ namespace School.Api.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            _service.Dispose();
+            this._service.Dispose();
         }
     }
 }

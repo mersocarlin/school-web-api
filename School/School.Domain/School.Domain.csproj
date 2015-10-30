@@ -38,13 +38,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\Repositories\ICourseRepository.cs" />
+    <Compile Include="Contracts\Repositories\IPersonRepository.cs" />
     <Compile Include="Contracts\Repositories\IRepository.cs" />
-    <Compile Include="Contracts\Repositories\IStudentRepository.cs" />
-    <Compile Include="Contracts\Repositories\ITeacherRepository.cs" />
-    <Compile Include="Contracts\Services\IStudentService.cs" />
-    <Compile Include="Contracts\Services\ITeacherService.cs" />
+    <Compile Include="Contracts\Repositories\IUserRepository.cs" />
+    <Compile Include="Contracts\Services\ICourseService.cs" />
+    <Compile Include="Contracts\Services\IPersonService.cs" />
+    <Compile Include="Contracts\Services\IUserService.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
