@@ -8,6 +8,8 @@ This is a sample for RESTful Web API where I build a simple back-end to manage s
 * [x] Service Pattern
 * [x] DDD
 * [x] Dependency Injection
+* [x] Unit Testing
+* [x] Mock (Moq)
 * [x] SQL Server
 * [x] oAuth Authentication
 * [ ] Cache for requests
