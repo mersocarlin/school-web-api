@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mersocarlin/school-web-api.svg?branch=develop)](https://travis-ci.org/mersocarlin/school-web-api)
+
 # school-web-api
 This is a sample for RESTful Web API where I build a simple back-end to manage students, teachers and courses.
 
@@ -8,6 +10,8 @@ This is a sample for RESTful Web API where I build a simple back-end to manage s
 * [x] Service Pattern
 * [x] DDD
 * [x] Dependency Injection
+* [x] Unit Testing
+* [x] Mock (Moq)
 * [x] SQL Server
 * [x] oAuth Authentication
 * [ ] Cache for requests

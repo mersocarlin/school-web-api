@@ -1,0 +1,8 @@
+language: csharp
+solution: School/School.sln
+install:
+  - nuget restore School/School.sln
+  - nuget install NUnit.Runners -Version 3.0.0 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release School/School.sln
+  - mono ./testrunner/NUnit.Console.3.0.0/tools/nunit3-console.exe ./School/School.Data.Tests/bin/Release/School.Data.Tests.dll
