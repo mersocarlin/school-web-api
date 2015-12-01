@@ -6,3 +6,4 @@ install:
 script:
   - xbuild /p:Configuration=Release School/School.sln
   - mono ./testrunner/NUnit.Console.3.0.0/tools/nunit3-console.exe ./School/School.Data.Tests/bin/Release/School.Data.Tests.dll
+  - mono ./testrunner/NUnit.Console.3.0.0/tools/nunit3-console.exe ./School/School.Business.Tests/bin/Release/School.Business.Tests.dll
