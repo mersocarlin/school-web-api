@@ -1,4 +1,5 @@
 ﻿using School.Api.Attribute;
+using School.Business.Models;
 using School.Domain.Contracts.Services;
 using School.Domain.Models;
 using System;
@@ -31,7 +32,15 @@ namespace School.Api.Controllers
             try
             {
                 var result = _service.Get(query, personType, personStatus, page, pageSize);
-                response = Request.CreateResponse(HttpStatusCode.OK, result);
+
+                if (result != null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, (result as PersonPaginator).ToJson());
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.BadRequest, "");
+                }
             }
             catch (Exception ex)
             {

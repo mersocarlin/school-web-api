@@ -1,4 +1,5 @@
-﻿using School.Domain.Contracts.Repositories;
+﻿using School.Business.Models;
+using School.Domain.Contracts.Repositories;
 using School.Domain.Contracts.Services;
 using School.Domain.Models;
 using System;
@@ -37,6 +38,11 @@ namespace School.Business.Services
 
         private bool PersonQuerySearch(Person person, string query)
         {
+            if (string.IsNullOrEmpty(query))
+            {
+                return true;
+            }
+
             return person.Name.ToUpper().Contains(query) || (!string.IsNullOrEmpty(person.Email) && person.Email.ToUpper().Contains(query));
         }
 
@@ -60,13 +66,10 @@ namespace School.Business.Services
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize);
 
-            return new
-            {
-                page = page,
-                total = total,
-                data = from p in collection
-                       select p.ToJson(),
-            };
+            PersonPaginator paginator = new PersonPaginator(page, total);
+            paginator.Data = collection;
+
+            return paginator;
         }
 
         public Person GetPersonById(int id)
