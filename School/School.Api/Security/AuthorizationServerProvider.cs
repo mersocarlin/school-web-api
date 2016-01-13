@@ -43,7 +43,7 @@ namespace School.Api.Security
                         CreatedAt = DateTime.Now,
                         LastLogin = DateTime.Now,
                         Status = EntityStatus.Active,
-                        Profile = UserProfile.Admin
+                        Profile = UserProfile.SuperUser
                     };
                 }
                 else
